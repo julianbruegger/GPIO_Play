@@ -39,9 +39,7 @@ movie2 = ("Your/Path/To/Video.mp4")
 I got the information below from [Here](https://www.programiz.com/python-programming/if-elif-else).
 
 The ``` elif ``` is short for else if. It allows us to check for multiple expressions. If the condition for ```if``` is ```False```, it checks the condition of the next elif block and so on.
-
 If all the conditions are ```False```, body of else is executed.
-
 Only one block among the several ```if...elif...else``` blocks is executed according to the condition.
 
 The ```if``` block can have only __one__ ```else``` block. But it can have __multiple__ ```elif``` blocks.
