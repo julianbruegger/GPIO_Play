@@ -8,7 +8,7 @@ GPIO.setmode(GPIO.BCM)
 GPIO.setup(17, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
 
-movie1 = ("/home/pi/Videos/TEST_VIDEO.mp4")
+movie1 = ("/home/pi/Videos/VIDEO.mp4")
 
 last_state1 = True
 
