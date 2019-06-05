@@ -1,7 +1,11 @@
 # GPIO_Play
 In diesem Python Programm wird über einen GPIO pin ein Video gestartet. 
 ## Zweck
-Das Programm ist für den Messestand der ICT-BZ gedacht. An diesem wird es für ein SYstemtechniker Stand Benötigt. 
+Das Programm ist für den Messestand der ICT-BZ gedacht. An diesem wird es für ein SYstemtechniker Stand benötigt. 
+Das Script soll ein Video starten, wenn ein Schaltkreis geschlossen wurde. 
+
+Weiter wurde der Raspberry-Pi angepasst damit das Script problemlos durchläuft. 
+
 
 # Das Script
 ```python
@@ -14,14 +18,11 @@ GPIO.setmode(GPIO.BCM)
 
 GPIO.setup(17, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
-
 movie1 = ("/home/pi/Videos/VIDEO.mp4")
 
 last_state1 = True
 
-
 input_state1 = True
-
 
 player = False
 
@@ -40,7 +41,7 @@ while True:
             omxc = Popen(['omxplayer', '-b', movie1])
             player = True
 
-        #If omxplayer is running and GIOP(17)are not shorted to Ground
+        #If omxplayer is running and GIOP(17)is not shorted to Ground
     elif (player and input_state1):
         os.system('killall omxplayer.bin')
         player = False
@@ -80,6 +81,34 @@ movie2 = ("Your/Path/To/Video.mp4")
 ## States
 
 ## Code
+Wenn GPIO 17 mit Ground verbunden ist, wird ein Video gestartet.
+```python
+while True:
+    #Read states of inputs
+    input_state1 = GPIO.input(17)
+    
+
+    #If GPIO(17) is shorted to Ground
+    if input_state1 != last_state1:
+        if (player and not input_state1):
+            os.system('killall omxplayer.bin')
+            omxc = Popen(['omxplayer', '-b', movie1])
+            player = True
+        elif not input_state1:
+            omxc = Popen(['omxplayer', '-b', movie1])
+            player = True
+```
+Falls der OMX-Player läuft und GPIO 17 nicht mit Ground Verbunden ist, wird der OMX-Player gestopt. 
+```python
+        #If omxplayer is running and GIOP(17) is not shorted to Ground
+    elif (player and input_state1):
+        os.system('killall omxplayer.bin')
+        player = False
+
+    #Set last_input states
+    last_state1 = input_state1
+```
+
 ## if, elif, else
 I got the information below from [Here](https://www.programiz.com/python-programming/if-elif-else).
 
@@ -99,6 +128,8 @@ Folgendes wird gemacht:
 - ICT-BZ Wallpaper setzen
 - Kein screensaver
 - Script abspeichern
+- Autostart
+
 ## Taskleiste Verstecken
 Die Taskleiste wird wie folgt angepasst. 
 
@@ -124,3 +155,33 @@ Das Wallpaper wird wie folgt gesetzt:
 2. _"Desktop Einsellungen"_ öffen
 3. Unter _"Picture"_ kann dann das Hintergrundsbild gewählt werden. 
 ## Script abspeichern
+Das Script wird im verzeichnis ```/home/pi/GPIO_Play``` abgelegt.
+## Mehr speicher für die GPU
+Wenn das Script standartmässig gestartet wird, kann es sein das ein ``` COMXAudio::Decode timeout``` fehler passiert. 
+
+Dies sieht dann wie folgt aus:
+```  COMXAudio::Decode timeout  
+ COMXAudio::Decode timeout  
+ COMXAudio::Decode timeout  
+ COMXAudio::Decode timeout 
+ ```
+
+Um desen Fehler zu beheben muss der GPU einfach mehr speicher zugewiesen werden. Dafür muss die Datei ``` /boot/config.txt``` angepasst werden. 
+
+Dies ist mit folgendem Befehl möglich: 
+```
+sudo nano /boot/config.txt
+```
+Am ende der Datei ```config.txt``` müssen noch folgende Zeilen eingefügt werden. 
+
+``` 
+# Allocates more memory to the GPU.
+gpu_mem=128
+``` 
+## Autostart
+Der Script wird im Autostart hinterlegt. Somit wird der Script automatisch gestartet. 
+Im Ordner ```/etc/rc.local ``` wird folgender befehl Hinterlegt:
+```sh
+# Autostart the GPIO_Play.py file
+sudo echo python /home/pi/GPIO_Play/GPIO_Play_Master/GPIO_Play.py &
+```
