@@ -1,15 +1,11 @@
 echo "This script will Autoinstall the GPIO_Play.py script"
 sleep 3
-# Install Updates
-echo "Do you wish to install Updates?"
-select yn in "Yes" "No"; do
-    case $yn in
-        Yes ) sudo apt-get updates
-            sudo apt-get upgrades; break;;
-        No ) break;;
 
-    esac
-done
+# Install Updates
+echo "Installing Updates"
+sudo apt-get updates
+sudo apt-get upgrades
+
 
 
 # Move Script to final Destination
@@ -22,10 +18,10 @@ gpu_mem=128 >> /boot/config.txt
 
 sleep
 # Add the Script to the Autostart
-sudo echo python /home/pi/GPIO_Play/GPIO_Play/GPIO_Play.py & >> /etc/rc.local 
+sudo echo python /home/pi/GPIO_Play/GPIO_Play.py & >> /etc/rc.local 
 
 # Change Wallpaper
-pcmanfm --set-wallpaper /home/pi/GPIO_Play/GPIO_Play/01_Files/Hintergrundbild_FullHD.png
+pcmanfm --set-wallpaper /home/pi/GPIO_Play/01_Files/Hintergrundbild_FullHD.png
 
 clear
 #Disclaimer
