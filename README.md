@@ -1,6 +1,12 @@
-# GPIO_Play
+# GPIO_Play ![alt text][logo]
+
+
 ## Zweck des Programmes
-Der zweck des Programmes ist es, nach dem ein Kreislauf geschlossen wurde, ein Video Aubzuspielen. 
+Der zweck des Programmes ist es, nach dem ein Kreislauf geschlossen wurde, ein Video Abzuspielen. 
+
+
+[logo]: https://www.ict-bz.ch/themes/ict-bz/assets/ICT-BZ_Logo_Google.png "ICT-BZ"
+
 Das ganze wird für den Messestand der ICT-Berufsbildung Zentralschweiz verwendet.
 
 # Änderungen
